@@ -3,6 +3,7 @@
 #Yohan Wards
 # run fmriprep
 
+
 ml singularity/3.5.0
 /scratch/user/s4549155/neurocommand/local/fetch_containers.sh fmriprep 20.2.3 20210917
 singularity run -B $HOME/scratch/tmp:/tmp \
