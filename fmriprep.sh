@@ -3,19 +3,19 @@
 #Yohan Wards
 # run fmriprep
 
-
+scratch_space=/scratch/project/stimmri/data/
 ml singularity/3.5.0
-/scratch/user/s4549155/neurocommand/local/fetch_containers.sh fmriprep 20.2.3 20210917
-singularity run -B /scratch/user/s4549155/tmp:/tmp \
--B /scratch/user/s4549155/STIMMRI_BIDS/STIMMRI_BIDS/:/STIMMRI_BIDS \
--B /scratch/user/s4549155/STIMMRI_fmriprep_output:/STIMMRI_fmriprep_output
---cleanenv /scratch/user/s4549155/images/fmriprep-latest-20210805.simg \
-/STIMMRI_BIDS/ /STIMMRI_fmriprep_output participant participant_label sub-048 \
---t2s-coreg \
+#/scratch/user/s4549155/neurocommand/local/fetch_containers.sh fmriprep 20.2.3 20210917
+singularity run -B ${scratch_space}/tmp:/tmp \
+-B ${scratch_space}/bids/:/bids \
+-B ${scratch_space}/STIMMRI_fmriprep_output:/STIMMRI_fmriprep_output \
+-B ${scratch_space}/freesurfer:/freesurfer \
+--cleanenv ${scratch_space}/containers/fmriprep-latest.simg \
+/bids/ /STIMMRI_fmriprep_output participant  \
 --use-syn-sdc \
---fs-license-file /scratch/user/s4549155/freesurfer/freesurfer.txt \
---output-spaces T1w MNI152NLin2009cAsym \
-fsaverage fsnative \
+--fs-license-file /freesurfer/freesurfer.txt \
+--output-spaces T1w MNI152NLin2009cAsym fsaverage fsnative \
 --use-aroma \
 --skip_bids_validation \
 --fs-no-reconall
+
