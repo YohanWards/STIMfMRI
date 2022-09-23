@@ -33,7 +33,9 @@ for subj in "${subjs[@]}"; do
             echo  "${niidir}sub-${subj}/${new_name}"
             mkdir -p ${outpath}sub-${subj}/ses-0${sess}/func
             mv "${niidir}sub-${subj}/${new_name}/" "${outpath}sub-${subj}/ses-0${sess}/func/${new_name}/"
-                
+            
+
         done
     done
+    rm -r ${niidir}sub-${subj}
 done
