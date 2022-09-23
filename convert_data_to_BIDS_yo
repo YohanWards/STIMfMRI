@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+## Written by Kelly Garner, adapted by Yohan Wards, from https://github.com/kel-github/imaging_cert_value_7T_pipeline/blob/master/cai2bids/convert_data_to_BIDS
+# start
+
+set -e # this command causes the script to exit on error
+####################################################################################################
+#### Defining pathways
+####################################################################################################
+outpath=/scratch/cvl/uqywards/physio/
+niidir=/scratch/cvl/uqywards/sauce/
+####################################################################################################
+
+subjs=(191)
+ses=(3)
+runs=(1 2 3)
+
+# # now the physiological data
+for subj in "${subjs[@]}"; do
+
+    for sess in "${ses[@]}"; do
+        mkdir -p ${niidir}/sub-${subj}/ses-0${sess}/func
+        
+        for run in "${runs[@]}"; do
+
+			z=$(printf '*cmrr_3x3_tr1_1p8_r_%d_physiolog.zip' "${run}")
+            fname=$(find ${niidir}sub-${subj}*/${z})
+            fname=$(printf ${fname})
+            new_name=$(basename $fname)
+            new_name=$(echo $new_name | rev | cut -f 2- -d '.' | rev)
+            echo "$new_name"
+            unzip "${fname}" -d "${niidir}sub-${subj}${*}/${new_name}"
+            echo  "${niidir}sub-${subj}/${new_name}"
+            mkdir -p ${outpath}sub-${subj}/ses-0${sess}/func
+            mv "${niidir}sub-${subj}/${new_name}/" "${outpath}sub-${subj}/ses-0${sess}/func/${new_name}/"
+                
+        done
+    done
+done
