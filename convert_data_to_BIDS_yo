@@ -5,15 +5,15 @@
 
 set -e # this command causes the script to exit on error
 ####################################################################################################
+#### Set sub numbers, session and runs
+subjs=(190 191 192 193 195 196 197 198 199 200 201 202 203 206 207)
+ses=(03)
+runs=(1 2 3)
 #### Defining pathways
 ####################################################################################################
-outpath=/scratch/cvl/uqywards/physio/
-niidir=/scratch/cvl/uqywards/sauce/
+outpath=/Users/uqywards_admin/Desktop/fMRIpract/physio/
+niidir=/Users/uqywards_admin/Desktop/fMRIpract/sauce/ses-${ses}/  #set ses-0 to the session you want to run on
 ####################################################################################################
-
-subjs=(191)
-ses=(3)
-runs=(1 2 3)
 
 # # now the physiological data
 for subj in "${subjs[@]}"; do
@@ -31,11 +31,13 @@ for subj in "${subjs[@]}"; do
             echo "$new_name"
             unzip "${fname}" -d "${niidir}sub-${subj}${*}/${new_name}"
             echo  "${niidir}sub-${subj}/${new_name}"
-            mkdir -p ${outpath}sub-${subj}/ses-0${sess}/func
-            mv "${niidir}sub-${subj}/${new_name}/" "${outpath}sub-${subj}/ses-0${sess}/func/${new_name}/"
+            mkdir -p ${outpath}sub-${subj}/ses-${sess}/func
+            mv "${niidir}sub-${subj}/${new_name}/" "${outpath}sub-${subj}/ses-${sess}/func/${new_name}/"
             
 
         done
+        
     done
     rm -r ${niidir}sub-${subj}
 done
+
